@@ -102,7 +102,7 @@ function FloatingShapes() {
 /* ── Floating particles ── */
 function ParticleField() {
   const particles = useMemo(() =>
-    Array.from({ length: 45 }, (_, i) => ({
+    Array.from({ length: 20 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -129,53 +129,55 @@ function ParticleField() {
 
 /* ── Cursor glow ── */
 function MouseGlow() {
-  const [pos, setPos] = useState({ x: -400, y: -400 });
+  const ref = useRef(null);
   useEffect(() => {
-    const move = (e) => setPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', move);
+    const move = (e) => {
+      if (ref.current)
+        ref.current.style.transform = `translate(${e.clientX - 350}px,${e.clientY - 350}px)`;
+    };
+    window.addEventListener('mousemove', move, { passive: true });
     return () => window.removeEventListener('mousemove', move);
   }, []);
-  return (
-    <div className="mouse-glow" aria-hidden="true"
-      style={{ transform: `translate(${pos.x - 350}px, ${pos.y - 350}px)` }}
-    />
-  );
+  return <div ref={ref} className="mouse-glow" aria-hidden="true" style={{ transform: 'translate(-800px,-800px)' }} />;
 }
 
 /* ── 3D tilt card with specular shine ── */
 function TiltCard({ children, className = '', style: s = {} }) {
   const ref = useRef(null);
   const raf = useRef(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0, tx: 0, ty: 0, on: false });
+  const active = useRef(false);
 
   const onMove = (e) => {
+    const cx = e.clientX, cy = e.clientY;
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = requestAnimationFrame(() => {
+      if (!ref.current) return;
       const { top, left, height, width } = ref.current.getBoundingClientRect();
-      const mx = (e.clientX - left) / width - 0.5;
-      const my = (e.clientY - top) / height - 0.5;
-      const rx = my * 22;
-      const ry = -mx * 22;
-      const tx = mx * 12;
-      const ty = my * 12;
+      const mx = (cx - left) / width - 0.5;
+      const my = (cy - top) / height - 0.5;
       ref.current.style.setProperty('--shine-x', `${(mx + 0.5) * 100}%`);
       ref.current.style.setProperty('--shine-y', `${(my + 0.5) * 100}%`);
-      setTilt({ rx, ry, tx, ty, on: true });
+      if (!active.current) {
+        ref.current.style.transition = 'transform 0.07s ease, border-color 0.25s ease, box-shadow 0.25s ease';
+        active.current = true;
+      }
+      ref.current.style.transform =
+        `perspective(600px) translateX(${mx * 12}px) translateY(${my * 12}px) translateZ(10px) rotateX(${my * 22}deg) rotateY(${-mx * 22}deg)`;
     });
   };
+
   const onLeave = () => {
     if (raf.current) cancelAnimationFrame(raf.current);
-    setTilt({ rx: 0, ry: 0, tx: 0, ty: 0, on: false });
+    active.current = false;
+    if (ref.current) {
+      ref.current.style.transition = 'transform 0.55s ease, border-color 0.35s ease, box-shadow 0.4s ease';
+      ref.current.style.transform = 'perspective(600px) translateX(0) translateY(0) translateZ(0) rotateX(0) rotateY(0)';
+    }
   };
+
   return (
     <div ref={ref} className={`tilt-card ${className}`}
-      style={{
-        ...s,
-        transform: `perspective(600px) translateX(${tilt.tx}px) translateY(${tilt.ty}px) translateZ(${tilt.on ? '10px' : '0'}) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-        transition: tilt.on
-          ? 'transform 0.07s ease, border-color 0.25s ease, box-shadow 0.25s ease'
-          : 'transform 0.55s ease, border-color 0.35s ease, box-shadow 0.4s ease',
-      }}
+      style={{ ...s, transform: 'perspective(600px) translateX(0) translateY(0) translateZ(0) rotateX(0) rotateY(0)', transition: 'transform 0.55s ease, border-color 0.35s ease, box-shadow 0.4s ease' }}
       onMouseMove={onMove} onMouseLeave={onLeave}
     >
       {children}
