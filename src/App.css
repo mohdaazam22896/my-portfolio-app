@@ -235,6 +235,177 @@ body { background: var(--bg); color: var(--text1); }
   transform: rotateX(90deg) rotateY(90deg);
 }
 
+/* ───── 3D Planet System ───── */
+.f-planet-wrap {
+  position: absolute;
+  top: 50%; left: 3%;
+  width: 100px; height: 100px;
+  transform-style: preserve-3d;
+  animation: planetDrift 10s ease-in-out infinite;
+}
+
+/* Nebula galaxy glow behind the planet */
+.f-galaxy-cloud {
+  position: absolute;
+  width: 260px; height: 260px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 45% 48%,
+    rgba(6,182,212,0.22) 0%,
+    rgba(139,92,246,0.18) 22%,
+    rgba(236,72,153,0.1) 46%,
+    rgba(16,185,129,0.06) 62%,
+    transparent 75%
+  );
+  filter: blur(18px);
+  animation: galaxyPulse 5s ease-in-out infinite;
+}
+
+/* Nebula streaks / gas clouds */
+.f-nebula-streak { position: absolute; border-radius: 50%; filter: blur(10px); pointer-events: none; }
+.f-nebula-1 {
+  width: 90px; height: 32px; top: 10%; left: -25%;
+  background: radial-gradient(ellipse, rgba(139,92,246,0.22) 0%, transparent 75%);
+  animation: nebulaFloat 8s ease-in-out infinite;
+}
+.f-nebula-2 {
+  width: 70px; height: 24px; bottom: 8%; right: -22%;
+  background: radial-gradient(ellipse, rgba(6,182,212,0.2) 0%, transparent 75%);
+  animation: nebulaFloat 11s ease-in-out infinite reverse;
+}
+.f-nebula-3 {
+  width: 50px; height: 20px; top: 65%; left: -18%;
+  background: radial-gradient(ellipse, rgba(245,158,11,0.15) 0%, transparent 75%);
+  animation: nebulaFloat 7s ease-in-out infinite 2s;
+}
+
+/* Twinkling stars */
+.f-pstar {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px rgba(255,255,255,0.95), 0 0 10px rgba(6,182,212,0.5);
+  animation: starTwinkle ease-in-out infinite;
+}
+
+/* Planet sphere — gas giant with deep blue-purple tones */
+.f-planet-orb {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 36% 30%, rgba(224,242,254,0.28) 0%, transparent 42%),
+    radial-gradient(circle at 62% 44%, rgba(6,182,212,0.32) 0%, transparent 36%),
+    linear-gradient(145deg,
+      #0a0820 0%,
+      #1c1460 18%,
+      #2e1d7a 34%,
+      #1e3a8a 50%,
+      #0c4a6e 66%,
+      #063248 82%,
+      #040a14 100%
+    );
+  box-shadow:
+    inset -16px -10px 40px rgba(0,0,0,0.78),
+    inset 6px 5px 30px rgba(99,102,241,0.4),
+    inset -5px -5px 22px rgba(6,182,212,0.18),
+    0 0 60px rgba(6,182,212,0.5),
+    0 0 120px rgba(139,92,246,0.25),
+    0 0 200px rgba(6,182,212,0.08);
+}
+
+/* Scrolling atmosphere stripes (simulates planet rotation) */
+.f-planet-surface {
+  position: absolute;
+  width: 200%; height: 100%; left: 0; top: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px, transparent 22px,
+    rgba(6,182,212,0.13) 22px, rgba(6,182,212,0.13) 27px,
+    transparent 27px, transparent 50px,
+    rgba(99,102,241,0.1) 50px, rgba(99,102,241,0.1) 57px,
+    transparent 57px, transparent 72px,
+    rgba(14,165,233,0.08) 72px, rgba(14,165,233,0.08) 76px,
+    transparent 76px, transparent 90px,
+    rgba(139,92,246,0.07) 90px, rgba(139,92,246,0.07) 96px
+  );
+  animation: surfaceScroll 22s linear infinite;
+}
+
+/* Upper cloud / weather band layer (slower scroll) */
+.f-planet-clouds {
+  position: absolute;
+  width: 200%; height: 100%; left: 0; top: 0;
+  background:
+    radial-gradient(ellipse 58% 20% at 28% 38%, rgba(255,255,255,0.08) 0%, transparent 100%),
+    radial-gradient(ellipse 42% 15% at 72% 62%, rgba(255,255,255,0.05) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 18% at 52% 24%, rgba(99,102,241,0.1) 0%, transparent 100%),
+    radial-gradient(ellipse 35% 12% at 18% 72%, rgba(6,182,212,0.08) 0%, transparent 100%);
+  animation: surfaceScroll 38s linear infinite reverse;
+}
+
+/* Specular highlight (light source top-left) */
+.f-planet-shine {
+  position: absolute; top: 7%; left: 10%;
+  width: 35%; height: 26%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.52) 0%, transparent 70%);
+}
+
+/* Night-side shadow */
+.f-planet-shadow {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 74% 72%,
+    transparent 20%,
+    rgba(0,0,0,0.4) 48%,
+    rgba(0,0,0,0.88) 100%
+  );
+}
+
+/* Orbital rings — centered on planet */
+.f-orbit-ring {
+  position: absolute; top: 50%; left: 50%;
+  border-radius: 50%;
+}
+
+/* Main Saturn-like multi-band ring */
+.f-orbit-ring-1 {
+  width: 190px; height: 190px;
+  transform: translate(-50%, -50%) rotateX(72deg) rotateZ(0deg);
+  background: radial-gradient(ellipse at center,
+    transparent 34%,
+    rgba(245,158,11,0.12) 35%,
+    rgba(6,182,212,0.6) 38%,
+    rgba(6,182,212,0.78) 41%,
+    rgba(6,182,212,0.38) 44%,
+    rgba(255,255,255,0.06) 46%,
+    rgba(139,92,246,0.52) 49%,
+    rgba(139,92,246,0.24) 52%,
+    rgba(236,72,153,0.32) 55%,
+    rgba(6,182,212,0.1) 57.5%,
+    transparent 60%
+  );
+  filter: drop-shadow(0 0 10px rgba(6,182,212,0.45)) drop-shadow(0 0 22px rgba(139,92,246,0.22));
+  animation: ringPlanetSpin1 12s linear infinite;
+}
+
+/* Inner tilted ring at different angle — pink/magenta band */
+.f-orbit-ring-2 {
+  width: 140px; height: 140px;
+  transform: translate(-50%, -50%) rotateX(62deg) rotateY(28deg) rotateZ(0deg);
+  background: radial-gradient(ellipse at center,
+    transparent 38%,
+    rgba(236,72,153,0.45) 41%,
+    rgba(236,72,153,0.68) 44.5%,
+    rgba(236,72,153,0.28) 48%,
+    transparent 51%
+  );
+  filter: drop-shadow(0 0 8px rgba(236,72,153,0.4));
+  animation: ringPlanetSpin2 8s linear infinite reverse;
+}
+
 /* ───── Header ───── */
 .header {
   display: flex; align-items: center; gap: 2rem;
@@ -715,6 +886,38 @@ body { background: var(--bg); color: var(--text1); }
 @keyframes badgeGlow   { 0%,100%{box-shadow:0 0 12px rgba(52,211,153,0.2),0 2px 8px rgba(52,211,153,0.12)} 50%{box-shadow:0 0 28px rgba(52,211,153,0.5),0 4px 20px rgba(52,211,153,0.25)} }
 @keyframes gridPulse   { 0%,100%{opacity:1} 50%{opacity:0.6} }
 
+@keyframes planetDrift {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  20%  { transform: translateY(-24px) translateX(7px); }
+  45%  { transform: translateY(-14px) translateX(-9px); }
+  70%  { transform: translateY(-32px) translateX(5px); }
+  88%  { transform: translateY(-8px)  translateX(-5px); }
+}
+@keyframes surfaceScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes galaxyPulse {
+  0%, 100% { opacity: 0.72; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.12); }
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.65); }
+  50%       { opacity: 1;    transform: translate(-50%, -50%) scale(1.5); }
+}
+@keyframes nebulaFloat {
+  0%, 100% { transform: translateX(0)   translateY(0)   scale(1); }
+  50%       { transform: translateX(10px) translateY(-8px) scale(1.12); }
+}
+@keyframes ringPlanetSpin1 {
+  from { transform: translate(-50%,-50%) rotateX(72deg) rotateZ(0deg); }
+  to   { transform: translate(-50%,-50%) rotateX(72deg) rotateZ(360deg); }
+}
+@keyframes ringPlanetSpin2 {
+  from { transform: translate(-50%,-50%) rotateX(62deg) rotateY(28deg) rotateZ(0deg); }
+  to   { transform: translate(-50%,-50%) rotateX(62deg) rotateY(28deg) rotateZ(360deg); }
+}
+
 @keyframes cubeRotate {
   0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg); }
   100% { transform: rotateX(360deg) rotateY(270deg) rotateZ(180deg); }
@@ -959,6 +1162,16 @@ body { background: var(--bg); color: var(--text1); }
 [data-theme="light"] .edu-icon-wrap { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.22); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 2px 3px 0 rgba(124,58,237,0.08); }
 [data-theme="light"] .edu-period { background: rgba(124,58,237,0.06); border-color: rgba(124,58,237,0.14); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 1px 2px 0 rgba(124,58,237,0.07); }
 
+[data-theme="light"] .f-galaxy-cloud {
+  background: radial-gradient(ellipse at 45% 48%,
+    rgba(6,182,212,0.18) 0%, rgba(139,92,246,0.14) 25%,
+    rgba(236,72,153,0.08) 48%, transparent 72%
+  );
+}
+[data-theme="light"] .f-pstar { box-shadow: 0 0 4px rgba(139,92,246,0.9), 0 0 10px rgba(6,182,212,0.5); background: #6d28d9; }
+[data-theme="light"] .f-nebula-1 { background: radial-gradient(ellipse, rgba(124,58,237,0.25) 0%, transparent 75%); }
+[data-theme="light"] .f-nebula-2 { background: radial-gradient(ellipse, rgba(6,182,212,0.22) 0%, transparent 75%); }
+
 [data-theme="light"] .theme-toggle { background: rgba(255,255,255,0.96); box-shadow: 0 4px 24px rgba(124,58,237,0.22), 2px 3px 0 rgba(124,58,237,0.12); }
 
 /* ───── Responsive ───── */
@@ -975,6 +1188,6 @@ body { background: var(--bg); color: var(--text1); }
   .container      { padding: 1.5rem 1rem 4rem; }
   .f-cube-1, .f-cube-2, .f-cube-3, .f-cube-4, .f-cube-5,
   .f-ring-1, .f-ring-2, .f-ring-3, .f-ring-4, .f-ring-5,
-  .f-gyro, .scanlines { display: none; }
+  .f-gyro, .f-planet-wrap, .scanlines { display: none; }
   .bg-perspective { display: none; }
 }
