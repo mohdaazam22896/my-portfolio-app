@@ -221,6 +221,9 @@ function ThemeToggle({ theme, onToggle }) {
 /* ── App ── */
 function App() {
   const [activeSection, setActiveSection] = useState('about');
+  const [displaySection, setDisplaySection] = useState('about');
+  const [leaving, setLeaving] = useState(false);
+  const timerRef = useRef(null);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
@@ -229,6 +232,17 @@ function App() {
   }, [theme]);
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+
+  const switchSection = (id) => {
+    if (id === activeSection) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setActiveSection(id);
+    setLeaving(true);
+    timerRef.current = setTimeout(() => {
+      setDisplaySection(id);
+      setLeaving(false);
+    }, 210);
+  };
 
   const sections = [
     { id: 'about', label: 'About' },
@@ -280,7 +294,7 @@ function App() {
             <button
               key={s.id}
               className={`nav-btn ${activeSection === s.id ? 'nav-btn--active' : ''}`}
-              onClick={() => setActiveSection(s.id)}
+              onClick={() => switchSection(s.id)}
             >
               {s.label}
             </button>
@@ -288,10 +302,12 @@ function App() {
         </nav>
 
         <main className="main">
-          {activeSection === 'about' && <AboutSection />}
-          {activeSection === 'experience' && <ExperienceSection />}
-          {activeSection === 'skills' && <SkillsSection />}
-          {activeSection === 'education' && <EducationSection />}
+          <div key={displaySection} className={`tab-content ${leaving ? 'tab-leaving' : ''}`}>
+            {displaySection === 'about' && <AboutSection />}
+            {displaySection === 'experience' && <ExperienceSection />}
+            {displaySection === 'skills' && <SkillsSection />}
+            {displaySection === 'education' && <EducationSection />}
+          </div>
         </main>
       </div>
     </div>

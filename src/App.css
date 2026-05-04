@@ -1116,6 +1116,23 @@ body { background: var(--bg); color: var(--text1); }
 .section-enter > *:nth-child(3) { animation-delay: 0.25s; }
 .section-enter > *:nth-child(4) { animation-delay: 0.35s; }
 
+/* ───── Tab switch animation ───── */
+.tab-content {
+  animation: tabEnter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.tab-content.tab-leaving {
+  animation: tabLeave 0.21s ease-in both;
+  pointer-events: none;
+}
+@keyframes tabEnter {
+  from { opacity: 0; transform: translateY(22px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+@keyframes tabLeave {
+  from { opacity: 1; transform: translateY(0)    scale(1);    }
+  to   { opacity: 0; transform: translateY(-12px) scale(0.99); }
+}
+
 /* ───── Keyframes ───── */
 @keyframes pulse       { 0%,100%{opacity:1} 50%{opacity:0.4} }
 @keyframes fadeInUp    { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
