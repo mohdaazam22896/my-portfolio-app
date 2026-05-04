@@ -91,7 +91,7 @@ body { background: var(--bg); color: var(--text1); }
 .bg-blob-4 { width: 280px; height: 280px; background: rgba(236,72,153,0.06); top: 25%; right: 8%; animation: blobFloat1 34s ease-in-out infinite reverse; }
 
 /* ───── 3D Floating Shapes ───── */
-.floating-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; contain: strict; }
+.floating-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; will-change: transform; }
 .particle-field { position: fixed; inset: 0; pointer-events: none; z-index: 0; contain: strict; }
 
 /* Wireframe cubes */

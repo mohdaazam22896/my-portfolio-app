@@ -4,6 +4,8 @@ import './App.css';
 import MouseGlow       from './components/background/MouseGlow';
 import ParticleField   from './components/background/ParticleField';
 import FloatingShapes  from './components/background/FloatingShapes';
+import CursorTrail     from './components/background/CursorTrail';
+import ClickBurst      from './components/background/ClickBurst';
 
 import ThemeToggle     from './components/ui/ThemeToggle';
 
@@ -49,6 +51,8 @@ export default function App() {
   return (
     <div className="app">
       <MouseGlow />
+      <CursorTrail />
+      <ClickBurst />
       <FloatingShapes />
       <ParticleField />
       <div className="bg-blob bg-blob-1" />
