@@ -11,9 +11,18 @@ function FloatingShapes() {
       <div className="f-cube f-cube-1">{FACES.map(f => <div key={f} className={`f-face f-${f}`} />)}</div>
       <div className="f-cube f-cube-2">{FACES.map(f => <div key={f} className={`f-face f-${f}`} />)}</div>
       <div className="f-cube f-cube-3">{FACES.map(f => <div key={f} className={`f-face f-${f}`} />)}</div>
+      <div className="f-cube f-cube-4">{FACES.map(f => <div key={f} className={`f-face f-${f}`} />)}</div>
+      <div className="f-cube f-cube-5">{FACES.map(f => <div key={f} className={`f-face f-${f}`} />)}</div>
       <div className="f-ring f-ring-1" />
       <div className="f-ring f-ring-2" />
       <div className="f-ring f-ring-3" />
+      <div className="f-ring f-ring-4" />
+      <div className="f-ring f-ring-5" />
+      <div className="f-gyro">
+        <div className="f-gyro-ring f-gyro-r1" />
+        <div className="f-gyro-ring f-gyro-r2" />
+        <div className="f-gyro-ring f-gyro-r3" />
+      </div>
     </div>
   );
 }
@@ -21,11 +30,11 @@ function FloatingShapes() {
 /* ── Floating particles ── */
 function ParticleField() {
   const particles = useMemo(() =>
-    Array.from({ length: 25 }, (_, i) => ({
+    Array.from({ length: 45 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 2 + 0.8,
+      size: Math.random() * 3 + 1,
       duration: Math.random() * 22 + 12,
       delay: -(Math.random() * 20),
       opacity: Math.random() * 0.3 + 0.06,
@@ -56,7 +65,7 @@ function MouseGlow() {
   }, []);
   return (
     <div className="mouse-glow" aria-hidden="true"
-      style={{ transform: `translate(${pos.x - 200}px, ${pos.y - 200}px)` }}
+      style={{ transform: `translate(${pos.x - 350}px, ${pos.y - 350}px)` }}
     />
   );
 }
@@ -71,8 +80,8 @@ function TiltCard({ children, className = '', style: s = {} }) {
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = requestAnimationFrame(() => {
       const { top, left, height, width } = ref.current.getBoundingClientRect();
-      const rx = ((e.clientY - top) / height - 0.5) * 9;
-      const ry = -((e.clientX - left) / width - 0.5) * 9;
+      const rx = ((e.clientY - top) / height - 0.5) * 24;
+      const ry = -((e.clientX - left) / width - 0.5) * 24;
       const sx = ((e.clientX - left) / width) * 100;
       const sy = ((e.clientY - top) / height) * 100;
       ref.current.style.setProperty('--shine-x', `${sx}%`);
@@ -88,7 +97,7 @@ function TiltCard({ children, className = '', style: s = {} }) {
     <div ref={ref} className={`tilt-card ${className}`}
       style={{
         ...s,
-        transform: `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+        transform: `perspective(600px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
         transition: tilt.on ? 'transform 0.06s ease' : 'transform 0.55s ease',
       }}
       onMouseMove={onMove} onMouseLeave={onLeave}
@@ -162,6 +171,7 @@ function App() {
       <div className="bg-grid" aria-hidden="true" />
       <div className="bg-perspective" aria-hidden="true" />
 
+      <div className="scanlines" aria-hidden="true" />
       <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <div className="container">
         <header className="header">
