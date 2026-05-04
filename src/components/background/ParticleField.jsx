@@ -18,7 +18,7 @@ export default function ParticleField() {
         <div key={p.id} className="particle" style={{
           left: `${p.x}%`, top: `${p.y}%`,
           width: p.size, height: p.size,
-          opacity: p.opacity,
+          '--p-opacity': p.opacity,
           animationDuration: `${p.duration}s`,
           animationDelay: `${p.delay}s`,
         }} />
