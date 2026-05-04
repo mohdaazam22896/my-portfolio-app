@@ -1029,6 +1029,7 @@ body { background: var(--bg); color: var(--text1); }
 
 /* ───── 3D Education ───── */
 .edu-section { display: flex; flex-direction: column; gap: 1.1rem; }
+.edu-anim-wrap { animation: fadeInUp 0.45s ease-out both; }
 .edu-card {
   display: flex; align-items: center; gap: 1.5rem;
   background: linear-gradient(135deg, rgba(7,7,26,0.97) 0%, rgba(13,13,36,0.97) 100%);

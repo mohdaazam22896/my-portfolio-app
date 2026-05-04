@@ -146,32 +146,34 @@ function MouseGlow() {
 function TiltCard({ children, className = '', style: s = {} }) {
   const ref = useRef(null);
   const raf = useRef(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0, on: false });
+  const [tilt, setTilt] = useState({ rx: 0, ry: 0, tx: 0, ty: 0, on: false });
 
   const onMove = (e) => {
     if (raf.current) cancelAnimationFrame(raf.current);
     raf.current = requestAnimationFrame(() => {
       const { top, left, height, width } = ref.current.getBoundingClientRect();
-      const rx = ((e.clientY - top) / height - 0.5) * 24;
-      const ry = -((e.clientX - left) / width - 0.5) * 24;
-      const sx = ((e.clientX - left) / width) * 100;
-      const sy = ((e.clientY - top) / height) * 100;
-      ref.current.style.setProperty('--shine-x', `${sx}%`);
-      ref.current.style.setProperty('--shine-y', `${sy}%`);
-      setTilt({ rx, ry, on: true });
+      const mx = (e.clientX - left) / width - 0.5;
+      const my = (e.clientY - top) / height - 0.5;
+      const rx = my * 22;
+      const ry = -mx * 22;
+      const tx = mx * 12;
+      const ty = my * 12;
+      ref.current.style.setProperty('--shine-x', `${(mx + 0.5) * 100}%`);
+      ref.current.style.setProperty('--shine-y', `${(my + 0.5) * 100}%`);
+      setTilt({ rx, ry, tx, ty, on: true });
     });
   };
   const onLeave = () => {
     if (raf.current) cancelAnimationFrame(raf.current);
-    setTilt({ rx: 0, ry: 0, on: false });
+    setTilt({ rx: 0, ry: 0, tx: 0, ty: 0, on: false });
   };
   return (
     <div ref={ref} className={`tilt-card ${className}`}
       style={{
         ...s,
-        transform: `perspective(600px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+        transform: `perspective(600px) translateX(${tilt.tx}px) translateY(${tilt.ty}px) translateZ(${tilt.on ? '10px' : '0'}) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
         transition: tilt.on
-          ? 'transform 0.06s ease, border-color 0.25s ease, box-shadow 0.25s ease'
+          ? 'transform 0.07s ease, border-color 0.25s ease, box-shadow 0.25s ease'
           : 'transform 0.55s ease, border-color 0.35s ease, box-shadow 0.4s ease',
       }}
       onMouseMove={onMove} onMouseLeave={onLeave}
@@ -486,21 +488,23 @@ function EduScoreBar({ percentage, index }) {
 
 function EducationSection() {
   return (
-    <div className="edu-section section-enter">
+    <div className="edu-section">
       {resume.education.map((edu, i) => (
-        <TiltCard key={i} className="edu-card">
-          <div className="edu-glow" />
-          <div className="edu-icon-wrap">
-            <span className="edu-icon">🎓</span>
-          </div>
-          <div className="edu-body">
-            <h3 className="edu-degree">{edu.degree}</h3>
-            <p className="edu-institute">{edu.institute}</p>
-            <p className="edu-location">📍 {edu.location}</p>
-            <EduScoreBar percentage={edu.percentage} index={i} />
-          </div>
-          <span className="edu-period">{edu.period}</span>
-        </TiltCard>
+        <div key={i} className="edu-anim-wrap" style={{ animationDelay: `${i * 0.1 + 0.05}s` }}>
+          <TiltCard className="edu-card">
+            <div className="edu-glow" />
+            <div className="edu-icon-wrap">
+              <span className="edu-icon">🎓</span>
+            </div>
+            <div className="edu-body">
+              <h3 className="edu-degree">{edu.degree}</h3>
+              <p className="edu-institute">{edu.institute}</p>
+              <p className="edu-location">📍 {edu.location}</p>
+              <EduScoreBar percentage={edu.percentage} index={i} />
+            </div>
+            <span className="edu-period">{edu.period}</span>
+          </TiltCard>
+        </div>
       ))}
     </div>
   );
