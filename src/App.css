@@ -127,7 +127,7 @@ body { background: var(--bg); color: var(--text1); }
 .f-cube-2 .f-bottom { transform: rotateX(-90deg) translateZ(40px); }
 
 /* Cube 3 — 52px, green, right-mid */
-.f-cube-3 { width: 52px; height: 52px; top: 40%; right: 12%; animation: cubeRotate 10s linear infinite; }
+.f-cube-3 { width: 52px; height: 52px; top: 60%; right: 15%; animation: cubeRotate 10s linear infinite; }
 .f-cube-3 .f-face {
   border: 1px solid rgba(16,185,129,0.44);
   background: rgba(16,185,129,0.03);
@@ -155,7 +155,7 @@ body { background: var(--bg); color: var(--text1); }
 .f-cube-4 .f-bottom { transform: rotateX(-90deg) translateZ(19px); }
 
 /* Cube 5 — 95px, pink/magenta, top-left */
-.f-cube-5 { width: 95px; height: 95px; top: 12%; left: 6%; animation: cubeRotate 28s linear infinite; animation-delay: -8s; }
+.f-cube-5 { width: 95px; height: 95px; top: 10%; left: 13%; animation: cubeRotate 28s linear infinite; animation-delay: -8s; }
 .f-cube-5 .f-face {
   border: 1.5px solid rgba(236,72,153,0.42);
   background: rgba(236,72,153,0.025);
@@ -187,7 +187,7 @@ body { background: var(--bg); color: var(--text1); }
   animation: ringOrbit 12s linear infinite reverse;
 }
 .f-ring-3 {
-  width: 70px; height: 70px; top: 68%; left: 16%;
+  width: 70px; height: 70px; top: 60%; left: 16%;
   border: 1px solid rgba(16,185,129,0.24);
   animation: ringOrbit 8s linear infinite;
 }
@@ -444,7 +444,7 @@ body { background: var(--bg); color: var(--text1); }
 /* ───── 3D Planet System ───── */
 .f-planet-wrap {
   position: absolute;
-  top: 50%; left: 3%;
+  top: 50%; left: 4%;
   width: 100px; height: 100px;
   transform-style: preserve-3d;
   animation: planetDrift 10s ease-in-out infinite;
@@ -1117,20 +1117,51 @@ body { background: var(--bg); color: var(--text1); }
 .section-enter > *:nth-child(4) { animation-delay: 0.35s; }
 
 /* ───── Tab switch animation ───── */
+.main {
+  perspective: 1000px;
+  perspective-origin: 50% -5%;
+}
+
 .tab-content {
-  animation: tabEnter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: tabEnter3D 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+  transform-origin: 50% 0%;
 }
 .tab-content.tab-leaving {
-  animation: tabLeave 0.21s ease-in both;
+  animation: tabLeave3D 0.22s cubic-bezier(0.55, 0, 0.9, 0.5) both;
   pointer-events: none;
 }
-@keyframes tabEnter {
-  from { opacity: 0; transform: translateY(22px) scale(0.99); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+
+/* New section rises from depth with top-tilt, snapping flat */
+@keyframes tabEnter3D {
+  from {
+    opacity: 0;
+    transform: rotateX(-28deg) translateZ(-120px) scale(0.88);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0deg) translateZ(0px) scale(1);
+    filter: blur(0px);
+  }
 }
-@keyframes tabLeave {
-  from { opacity: 1; transform: translateY(0)    scale(1);    }
-  to   { opacity: 0; transform: translateY(-12px) scale(0.99); }
+
+/* Old section tilts forward and sinks back */
+@keyframes tabLeave3D {
+  from {
+    opacity: 1;
+    transform: rotateX(0deg) translateZ(0px) scale(1);
+    filter: blur(0px);
+  }
+  to {
+    opacity: 0;
+    transform: rotateX(18deg) translateZ(-80px) scale(0.92);
+    filter: blur(3px);
+  }
 }
 
 /* ───── Keyframes ───── */
