@@ -122,9 +122,27 @@ function SkillBar({ name, level, color, index }) {
   );
 }
 
+/* ── Theme Toggle Button ── */
+function ThemeToggle({ theme, onToggle }) {
+  return (
+    <button className="theme-toggle" onClick={onToggle} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+      {theme === 'dark' ? '☀' : '🌙'}
+    </button>
+  );
+}
+
 /* ── App ── */
 function App() {
   const [activeSection, setActiveSection] = useState('about');
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+
   const sections = [
     { id: 'about', label: 'About' },
     { id: 'experience', label: 'Experience' },
@@ -144,6 +162,7 @@ function App() {
       <div className="bg-grid" aria-hidden="true" />
       <div className="bg-perspective" aria-hidden="true" />
 
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
       <div className="container">
         <header className="header">
           <div className="avatar-wrap">
