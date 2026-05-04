@@ -170,7 +170,9 @@ function TiltCard({ children, className = '', style: s = {} }) {
       style={{
         ...s,
         transform: `perspective(600px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-        transition: tilt.on ? 'transform 0.06s ease' : 'transform 0.55s ease',
+        transition: tilt.on
+          ? 'transform 0.06s ease, border-color 0.25s ease, box-shadow 0.25s ease'
+          : 'transform 0.55s ease, border-color 0.35s ease, box-shadow 0.4s ease',
       }}
       onMouseMove={onMove} onMouseLeave={onLeave}
     >
@@ -462,6 +464,26 @@ function SkillsSection() {
   );
 }
 
+function EduScoreBar({ percentage, index }) {
+  const numeric = parseFloat(percentage);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => setW(numeric), index * 120 + 350);
+    return () => clearTimeout(t);
+  }, [numeric, index]);
+  return (
+    <div className="edu-score">
+      <div className="edu-score-label">
+        <span className="edu-score-text">Score</span>
+        <span className="edu-score-pct">{percentage}</span>
+      </div>
+      <div className="edu-score-track">
+        <div className="edu-score-fill" style={{ width: `${w}%` }} />
+      </div>
+    </div>
+  );
+}
+
 function EducationSection() {
   return (
     <div className="edu-section section-enter">
@@ -475,6 +497,7 @@ function EducationSection() {
             <h3 className="edu-degree">{edu.degree}</h3>
             <p className="edu-institute">{edu.institute}</p>
             <p className="edu-location">📍 {edu.location}</p>
+            <EduScoreBar percentage={edu.percentage} index={i} />
           </div>
           <span className="edu-period">{edu.period}</span>
         </TiltCard>

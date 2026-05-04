@@ -25,12 +25,21 @@ export const resume = {
       period: '2014 – 2018',
       institute: 'Raj Kumar Goel Institute of Technology',
       location: 'Ghaziabad, UP, India',
+      percentage: '77%',
     },
     {
       degree: 'Higher Secondary',
       period: '2012 – 2014',
       institute: 'SVM Inter College',
       location: 'Saharanpur, UP, India',
+      percentage: '88.8%',
+    },
+    {
+      degree: 'High School',
+      period: '2011 – 2012',
+      institute: 'SVM Inter College',
+      location: 'Saharanpur, UP, India',
+      percentage: '82.33%',
     },
   ],
   achievements: [
