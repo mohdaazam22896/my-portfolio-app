@@ -1,20 +1,20 @@
 import TiltCard from '../ui/TiltCard';
-import SkillBar from '../ui/SkillBar';
+import SkillBar  from '../ui/SkillBar';
 
 const categories = [
   {
     label: 'Frontend', color: '#8b5cf6',
     skills: [
-      { name: 'JavaScript', level: 95 }, { name: 'ReactJS', level: 92 },
-      { name: 'TypeScript', level: 85 }, { name: 'AngularJS', level: 78 },
-      { name: 'React Native', level: 80 }, { name: 'Redux', level: 88 },
+      { name: 'JavaScript', level: 95 }, { name: 'ReactJS',    level: 92 },
+      { name: 'TypeScript', level: 85 }, { name: 'AngularJS',  level: 78 },
+      { name: 'React Native', level: 80 }, { name: 'Redux',    level: 88 },
     ],
   },
   {
     label: 'Backend', color: '#06b6d4',
     skills: [
-      { name: 'NodeJs', level: 88 }, { name: 'ExpressJS', level: 85 },
-      { name: 'GraphQL', level: 82 }, { name: 'Apollo GraphQL', level: 78 },
+      { name: 'NodeJs',       level: 88 }, { name: 'ExpressJS',    level: 85 },
+      { name: 'GraphQL',      level: 82 }, { name: 'Apollo GraphQL', level: 78 },
     ],
   },
   {

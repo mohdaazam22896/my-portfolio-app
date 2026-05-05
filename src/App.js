@@ -6,6 +6,7 @@ import ParticleField   from './components/background/ParticleField';
 import FloatingShapes  from './components/background/FloatingShapes';
 import CursorTrail     from './components/background/CursorTrail';
 import ClickBurst      from './components/background/ClickBurst';
+import Butterfly3D     from './components/background/Butterfly3D';
 
 import ThemeToggle     from './components/ui/ThemeToggle';
 
@@ -53,6 +54,7 @@ export default function App() {
       <MouseGlow />
       <CursorTrail />
       <ClickBurst />
+      <Butterfly3D />
       <FloatingShapes />
       <ParticleField />
       <div className="bg-blob bg-blob-1" />
